@@ -32,14 +32,14 @@ public class GoodsService {
     public Goods updateGoods(Goods goods){
         //提前查一次,测试后面的查询是否走缓存
         Goods before = goodsDao.queryGoods(goods.getGoodsInfoId());
-        log.error("before---",before);
+        log.info("before---{}",before);
 
         //更新库存
-        log.info(Integer.toString(goodsDao.updateGoods(goods)));
+        log.info("本次更新的条数:{}",Integer.toString(goodsDao.updateGoods(goods)));
 
         //测试是否能够查询到修改后的库存
         Goods after = goodsDao.queryGoods(goods.getGoodsInfoId());
-        log.error("after---",after);
+        log.info("after---{}",after);
 
         //测试是否回滚
         String a = null;
