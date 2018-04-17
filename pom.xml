@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.xiaobai</groupId>
-	<artifactId>blog</artifactId>
+	<artifactId>article</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>blog</name>
-	<description>blog for ourself</description>
+	<name>article</name>
+	<description>article for ourSelf</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -25,21 +25,37 @@
 	</properties>
 
 	<dependencies>
+		<!--lombok实体助手-->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.18</version>
+			<optional>true</optional>
+		</dependency>
+		<!--Mybatis-->
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>1.3.1</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
+		<!--MySQL的JDBC驱动包-->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<!--阿里druid数据库连接池-->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<!--Web开发,spring mvc(内置tomcat)-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<!--junit单元测试-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -49,6 +65,7 @@
 
 	<build>
 		<plugins>
+			<!--编译项目需要的插件-->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
