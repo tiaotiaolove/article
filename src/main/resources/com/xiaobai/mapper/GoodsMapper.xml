@@ -37,4 +37,14 @@
         WHERE GOODS_INFO_ID = #{goodsInfoId}
     </update>
 
+    <!-- 插入多个 -->
+    <insert id="insertGoodsList" useGeneratedKeys="true" keyProperty="goodsInfoId">
+        INSERT INTO GOODS_INFO
+        (STOCK)
+        VALUES
+        <foreach collection="list" item="goods" index="index" separator="," >
+            (#{goods.stock})
+        </foreach>
+    </insert>
+
 </mapper>

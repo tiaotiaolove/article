@@ -8,6 +8,6 @@ import lombok.Data;
  */
 @Data
 public class Goods {
-    private String goodsInfoId;
+    private Long goodsInfoId;
     private Long stock;
 }

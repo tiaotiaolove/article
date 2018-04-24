@@ -24,13 +24,18 @@ public class GoodsController {
     }
 
     @GetMapping(value = "/{id}")
-    public Goods get(@PathVariable String id){
+    public Goods get(@PathVariable Long id){
         return goodsService.queryGoods(id);
     }
 
     @PutMapping()
     public Goods update(@RequestBody Goods goods){
         return goodsService.updateGoods(goods);
+    }
+
+    @PostMapping()
+    public int insertList(@RequestBody List<Goods> goodsList){
+        return goodsService.insertGoodsList(goodsList);
     }
 
 }

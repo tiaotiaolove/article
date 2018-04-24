@@ -28,9 +28,16 @@ public interface IGoodsDao {
     int updateGoods(Goods goods);
 
     /**
+     * 插入多个对象
+     * @param goodsList 商品List
+     * @return 插入条数
+     */
+    int insertGoodsList(List<Goods> goodsList);
+
+    /**
      * 根据id查询单个对象
      * @param id 商品id
      * @return 商品
      */
-    Goods queryGoods(String id);
+    Goods queryGoods(Long id);
 }
