@@ -1,6 +1,22 @@
+#基本信息
+info:
+  app:
+    name: ArticlePlatform
+    description: 文章标准平台
+    version: 1.0.0-SNAPSHOT
+
 #端口配置
 server:
   port: 8080
+
+#监控spring boot项目
+management:
+  server:
+    port: 9001
+  health:
+    mail:
+      enabled: false
+
 
 #log config
 logging:
@@ -16,8 +32,12 @@ mybatis:
   type-aliases-package: com.xiaobai.*.entity
   mapper-locations: classpath:com/xiaobai/mapper/*.xml
 
-#数据源配置
+#spring相关配置
 spring:
+  profiles:
+    #本配置文件适用于本机开发环境
+    active: local
+  #mysql数据源配置
   datasource:
     url: jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8
     username: root
@@ -25,3 +45,17 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
+  #redis配置
+  redis:
+    database: 0
+    host: 172.19.26.192
+    timeout: 2000ms
+
+#redisson配置
+redisson:
+  address: redis://172.19.26.192:6379
+  database: 1
+  #password:
+  timeout: 3000
+  connectionPoolSize: 64
+  connectionMinimumIdleSize: 10

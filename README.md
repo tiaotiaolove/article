@@ -1,13 +1,19 @@
 # blog
 文章类型的标准产品
 
-## 技术栈
+## 总体技术栈
 1.spring boot
 2.spring mvc
 3.mybatis
 
-## 百度
-[点我去百度](http://www.baidu.com)
+## 提示
+application.yml中
+```yaml
+spring:
+  profiles:
+    #local/dev/develop/test 才生成swagger2 API接口
+    active: local
+```
 
 ## 代码规范
-严格遵守SonarLint,以及阿里编码规约(idea插件)
+严格遵守阿里编码规约(idea插件)
