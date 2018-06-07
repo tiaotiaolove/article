@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xiaobai.goods.dao.IGoodsDao" >
+<mapper namespace="com.xiaobai.goods.dao.IGoodsDao">
     <!-- 基础结果集 -->
     <resultMap id="baseResultMap" type="com.xiaobai.goods.entity.Goods">
         <id property="goodsInfoId" column="GOODS_INFO_ID"/>
@@ -42,7 +42,7 @@
         INSERT INTO GOODS_INFO
         (STOCK)
         VALUES
-        <foreach collection="list" item="goods" index="index" separator="," >
+        <foreach collection="list" item="goods" index="index" separator=",">
             (#{goods.stock})
         </foreach>
     </insert>

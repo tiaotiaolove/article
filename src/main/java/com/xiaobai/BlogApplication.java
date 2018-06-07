@@ -28,7 +28,9 @@ public class BlogApplication {
         log.info("Access URLs:\n----------------------------------------------------------\n\t"
                         + "Local: \t\thttp://localhost:{}\n\t"
                         + "External: \thttp://{}:{}\n\t"
-                        + "health: \thttp://localhost:{}/actuator/health\n----------------------------------------------------------",
+                        + "health: " +
+                        "\thttp://localhost:{}/actuator/health\n" +
+                        "----------------------------------------------------------",
                 port,
                 InetAddress.getLocalHost().getHostAddress(),
                 port,
