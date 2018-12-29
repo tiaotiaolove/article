@@ -8,8 +8,10 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 商品库存Service
@@ -26,8 +28,12 @@ public class GoodsService {
     @Autowired
     private RedissonClient redissonClient;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     @Transactional(rollbackFor = Exception.class)
     public List<Goods> queryGoodsList(Goods goods) {
+        System.out.println(restTemplate.getForObject("https://bossbff.s2b.wanmi.com/baseConfig", Map.class));
         return goodsDao.queryGoodsList(goods);
     }
 
