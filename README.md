@@ -11,7 +11,7 @@ application.yml中
 ```yaml
 spring:
   profiles:
-    #local/dev/develop/test 才生成swagger2 API接口
+    #local/dev/develop/test 才生成swagger2 API接口,访问url为/swagger-ui.html
     active: local
 ```
 
