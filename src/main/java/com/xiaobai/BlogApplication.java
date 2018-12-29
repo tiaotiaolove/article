@@ -5,6 +5,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -16,6 +17,7 @@ import java.net.UnknownHostException;
  * @date 2018/1/25.15:16
  */
 @Slf4j
+@EnableAsync
 @SpringBootApplication
 @MapperScan(basePackages = {"com.xiaobai.*.dao"})
 public class BlogApplication {
