@@ -2,6 +2,7 @@ package com.xiaobai.goods.service;
 
 import com.xiaobai.goods.dao.IGoodsDao;
 import com.xiaobai.goods.entity.Goods;
+import com.xiaobai.util.HttpUtil;
 import com.xiaobai.util.SleepUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
@@ -32,8 +33,11 @@ public class GoodsService {
 
     @Transactional(rollbackFor = Exception.class)
     public List<Goods> queryGoodsList(Goods goods) {
+        log.info("token--->{}", HttpUtil.getRequest().getHeader("token"));
         log.info("1---主方法执行开始...");
-        asyncService.testAsyncFunc();
+        for (int i = 0; i < 20; i++) {
+            asyncService.testAsyncFunc();
+        }
         log.info("2---主方法执行结束...");
         return goodsDao.queryGoodsList(goods);
     }
