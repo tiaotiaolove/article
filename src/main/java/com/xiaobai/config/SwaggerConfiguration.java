@@ -18,8 +18,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.ArrayList;
 import java.util.List;
 
-import static springfox.documentation.builders.PathSelectors.regex;
-
 /**
  * 出于安全考虑: 仅在本机开发环境下启用 SwaggerUI, 在生产环境中禁用
  *
