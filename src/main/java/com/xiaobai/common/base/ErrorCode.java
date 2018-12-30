@@ -60,12 +60,6 @@ public final class ErrorCode {
      */
     public final static String WRONG_LOGIN_PASSWORD = "K-010002";
 
-    /**
-     * 密码错误次数超限，账号已锁定！
-     */
-    public final static String WRONG_LOGIN_COUNT = "K-010003";
-
-
     private ErrorCode() {
     }
 }

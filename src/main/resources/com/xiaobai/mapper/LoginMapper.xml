@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiaobai.login.dao.ILoginDao">
+    <!-- 基础结果集 -->
+    <resultMap id="baseResultMap" type="com.xiaobai.login.entity.LoginUser">
+        <id property="userId" column="user_id"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="userNickName" column="user_nick_name"/>
+        <result property="userPassword" column="user_password"/>
+        <result property="userSalt" column="user_salt"/>
+    </resultMap>
+
+    <!-- 通用查询字段 -->
+    <sql id="commonQuerySql">
+        user_id,
+        user_phone,
+        user_nick_name,
+        user_password,
+        user_salt
+    </sql>
+
+    <!-- 根据 手机号,未删除状态 查询单个用户 -->
+    <select id="queryOneUser" resultMap="baseResultMap">
+        SELECT
+        <include refid="commonQuerySql"/>
+        FROM bb_user
+        WHERE user_phone = #{phone}
+        AND del_flag = 0
+    </select>
+
+</mapper>

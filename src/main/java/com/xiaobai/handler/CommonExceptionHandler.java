@@ -52,7 +52,7 @@ public class CommonExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public BaseResponse validationExceptionHandle(MethodArgumentNotValidException ex) {
-        log.error("400, Bad Request, MethodArgumentNotValidException=>{}", ex.getMessage());
+        log.error("400, Bad Request, MethodArgumentNotValidException=>", ex);
         return new BaseResponse(ErrorCode.PARAMETER_ERROR);
     }
 
@@ -68,7 +68,7 @@ public class CommonExceptionHandler {
                         .append(i.getPropertyPath())
                         .append(i.getMessage()).append("\r\n")
         );
-        log.error("400, Bad Request, ConstraintViolationException=>{}", sb);
+        log.error("400, Bad Request, ConstraintViolationException=>", sb);
         return new BaseResponse(ErrorCode.PARAMETER_ERROR);
     }
 
@@ -76,7 +76,7 @@ public class CommonExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public BaseResponse illegalStateExceptionHandle(IllegalStateException ex) {
-        log.error("400, Bad Request, IllegalStateException=>{}", ex.getMessage());
+        log.error("400, Bad Request, IllegalStateException=>", ex);
         return new BaseResponse(ErrorCode.PARAMETER_ERROR);
     }
 
