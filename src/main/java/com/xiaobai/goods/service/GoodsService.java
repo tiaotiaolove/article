@@ -1,5 +1,7 @@
 package com.xiaobai.goods.service;
 
+import com.xiaobai.common.base.CommonRuntimeException;
+import com.xiaobai.common.base.ErrorCode;
 import com.xiaobai.goods.dao.IGoodsDao;
 import com.xiaobai.goods.entity.Goods;
 import com.xiaobai.util.HttpUtil;
@@ -67,12 +69,11 @@ public class GoodsService {
     public Goods updateGoods(Goods goods) {
         //更新库存-使用mysql innodb , 行锁启用(主键索引), 将顺序执行该行的update语句
         log.info("本次更新的条数:{}", Integer.toString(goodsDao.updateGoods(goods)));
-        SleepUtil.sleepSomeTime(10000);
+        SleepUtil.sleepSomeTime(1000);
 
         //测试是否能够查询到修改后的库存
         Goods after = goodsDao.queryGoods(goods.getGoodsInfoId());
         log.info("执行之后数据为:{}", after);
-
         //测试是否回滚
         String a = null;
         a.toLowerCase();

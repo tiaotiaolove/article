@@ -17,7 +17,6 @@ management:
     mail:
       enabled: false
 
-
 #log config
 logging:
   level:
@@ -37,6 +36,10 @@ spring:
   profiles:
     #本配置文件适用于本机开发环境
     active: local
+  # 国际化i18n MessageSource配置
+  messages:
+    basename: i18n/ResultCode
+    cache-duration: 3600s
   #mysql数据源配置
   datasource:
     url: jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8
