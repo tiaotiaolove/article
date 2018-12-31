@@ -48,6 +48,15 @@ public final class ErrorCode {
      */
     public final static String ILLEGAL_CHARACTER = "K-000006";
 
+    /**
+     * Missing Token
+     */
+    public final static String MISSING_TOKEN = "K-000007";
+
+    /**
+     * Invalid Token
+     */
+    public final static String INVALID_TOKEN = "K-000008";
 
     /*=======================================管理员错误码===============================================*/
     /**

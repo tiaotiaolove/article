@@ -30,6 +30,8 @@
 		<springfox.version>2.7.0</springfox.version>
 		<apache.commons-collections4.version>4.1</apache.commons-collections4.version>
 		<apache.commons-lang3.version>3.7</apache.commons-lang3.version>
+		<fastjson.version>1.2.47</fastjson.version>
+		<jwt.version>0.5.1</jwt.version>
 	</properties>
 
 	<dependencies>
@@ -101,6 +103,20 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${apache.commons-lang3.version}</version>
+			<optional>true</optional>
+		</dependency>
+		<!--json字符串转换,解析工具包-->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>${fastjson.version}</version>
+			<optional>true</optional>
+		</dependency>
+		<!--jwt token凭证生成器-->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>${jwt.version}</version>
 			<optional>true</optional>
 		</dependency>
 		<!--junit单元测试-->

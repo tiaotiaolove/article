@@ -63,3 +63,9 @@ redisson:
   timeout: 3000
   connectionPoolSize: 64
   connectionMinimumIdleSize: 10
+
+#JWT token认证配置
+jwt:
+  secretKey: 7b613a6a0ca011e9ab14d663bd873d937b613a6a0ca011e9ab14d663bd873d93
+  urlPatterns: /**
+  excludedUrls: /webjars/springfox-swagger-ui/**,/swagger-resources/**,/swagger-ui.html,/user/login

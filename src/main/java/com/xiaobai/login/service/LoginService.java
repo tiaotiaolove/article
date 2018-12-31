@@ -2,25 +2,18 @@ package com.xiaobai.login.service;
 
 import com.xiaobai.common.base.CommonRuntimeException;
 import com.xiaobai.common.base.ErrorCode;
-import com.xiaobai.goods.dao.IGoodsDao;
-import com.xiaobai.goods.entity.Goods;
-import com.xiaobai.goods.service.AsyncService;
 import com.xiaobai.login.dao.ILoginDao;
 import com.xiaobai.login.entity.LoginUser;
 import com.xiaobai.login.request.LoginUserReq;
-import com.xiaobai.util.HttpUtil;
-import com.xiaobai.util.SleepUtil;
+import com.xiaobai.login.response.LoginResponse;
+import com.xiaobai.util.CommonUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * 用户登陆Service
@@ -34,12 +27,16 @@ public class LoginService {
     @Autowired
     private ILoginDao loginDao;
 
+    @Value("${jwt.secretKey}")
+    private String jwtSecretKey;
+
     /**
      * 登陆逻辑
+     *
      * @param userReq 输入的用户名与密码
      * @return token
      */
-    public String login(LoginUserReq userReq) {
+    public LoginResponse login(LoginUserReq userReq) {
         LoginUser user = loginDao.queryOneUser(userReq.getAccount());
         if (user == null) {
             // 用户不存在,即用户名错误
@@ -53,7 +50,7 @@ public class LoginService {
                 throw new CommonRuntimeException(ErrorCode.WRONG_LOGIN_PASSWORD);
             }
         }
-        return UUID.randomUUID().toString();
+        return CommonUtil.getLoginResponse(user, jwtSecretKey);
     }
 
     /**

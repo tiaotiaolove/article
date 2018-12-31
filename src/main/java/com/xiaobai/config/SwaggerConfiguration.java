@@ -54,8 +54,9 @@ public class SwaggerConfiguration {
     private List<Parameter> setHeaderToken() {
         ParameterBuilder tokenPar = new ParameterBuilder();
         List<Parameter> pars = new ArrayList<>();
-        tokenPar.name("token").description("接口需要的jwt token")
-                .modelRef(new ModelRef("string")).parameterType("header").required(false).build();
+        tokenPar.name("Authorization").description("接口需要的jwt token")
+                .modelRef(new ModelRef("string")).parameterType("header").defaultValue("Bearer ").required(false)
+                .build();
         pars.add(tokenPar.build());
         return pars;
     }
