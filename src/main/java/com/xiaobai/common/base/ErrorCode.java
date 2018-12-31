@@ -58,6 +58,11 @@ public final class ErrorCode {
      */
     public final static String INVALID_TOKEN = "K-000008";
 
+    /**
+     * Expired Token
+     */
+    public final static String EXPIRED_TOKEN = "K-000009";
+
     /*=======================================管理员错误码===============================================*/
     /**
      * 账号不存在

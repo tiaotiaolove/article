@@ -19,7 +19,7 @@ import java.util.Base64;
  * @author bail
  * @date 2018/12/29.17:35
  */
-@Api(description = "用户登录/登出API")
+@Api(tags = "LoginController", description = "用户登录/登出API")
 @RestController()
 @RequestMapping("/user")
 public class LoginController {

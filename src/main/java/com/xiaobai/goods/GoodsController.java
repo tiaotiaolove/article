@@ -18,7 +18,7 @@ import java.util.List;
  * @author bail
  * @date 2018/1/25.15:16
  */
-@Api(description = "商品管理API")
+@Api(tags = "GoodsController", description = "商品管理API")
 @RestController
 @RequestMapping("/goods")
 public class GoodsController {

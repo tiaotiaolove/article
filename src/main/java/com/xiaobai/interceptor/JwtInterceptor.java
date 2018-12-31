@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.xiaobai.common.base.CommonRuntimeException;
 import com.xiaobai.common.base.ErrorCode;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -109,6 +110,9 @@ public class JwtInterceptor implements WebRequestInterceptor {
                 final Claims claims = Jwts.parser().setSigningKey(jwtSecretKey).parseClaimsJws(token).getBody();
                 webRequest.setAttribute("claims", claims, RequestAttributes.SCOPE_REQUEST);
                 log.debug("JwtInterceptor preHandle out ['Authorization success']");
+            } catch (ExpiredJwtException e) {
+                log.info("JwtInterceptor preHandle out ['Expired jwtToken'], exMsg:{}", e.getMessage());
+                throw new CommonRuntimeException(ErrorCode.EXPIRED_TOKEN);
             } catch (Exception e) {
                 log.info("JwtInterceptor preHandle out ['Invalid jwtToken'], exMsg:{}", e.getMessage());
                 throw new CommonRuntimeException(ErrorCode.INVALID_TOKEN);
