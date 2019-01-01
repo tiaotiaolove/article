@@ -33,7 +33,7 @@
     <include refid="commonQuerySql"/>
     from bb_dish
     <where>
-        <if test="season != null and season != ''">
+        <if test="season != null">
             season = #{season}
         </if>
     </where>
