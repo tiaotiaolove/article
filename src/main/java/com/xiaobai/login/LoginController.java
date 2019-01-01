@@ -2,7 +2,7 @@ package com.xiaobai.login;
 
 import com.xiaobai.common.base.BaseResponse;
 import com.xiaobai.login.request.LoginUserReq;
-import com.xiaobai.login.response.LoginResponse;
+import com.xiaobai.login.response.LoginRes;
 import com.xiaobai.login.service.LoginService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +31,7 @@ public class LoginController {
      */
     @ApiOperation(value = "管理员登录", notes = "base64编码即可")
     @PostMapping(value = "/login")
-    public BaseResponse<LoginResponse> login(@Valid @RequestBody
+    public BaseResponse<LoginRes> login(@Valid @RequestBody
                                   @ApiParam(value = "登陆用户Req", required = true) LoginUserReq loginUserReq) {
         String account = new String(Base64.getUrlDecoder().decode(loginUserReq.getAccount().getBytes()));
         String password = new String(Base64.getUrlDecoder().decode(loginUserReq.getPassword().getBytes()));

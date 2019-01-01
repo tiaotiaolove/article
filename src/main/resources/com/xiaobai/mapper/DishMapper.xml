@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiaobai.dish.dao.IDishDao">
+<!-- 基础结果集 -->
+<resultMap id="baseResultMap" type="com.xiaobai.dish.entity.Dish">
+    <id property="dishId" column="dish_id"/>
+    <result property="season" column="season"/>
+    <result property="oilyDegree" column="oily_degree"/>
+    <result property="dishType" column="dish_type"/>
+    <result property="dishName" column="dish_name"/>
+    <result property="dishPic" column="dish_pic"/>
+    <result property="dishSource" column="dish_source"/>
+    <result property="dishDesc" column="dish_desc"/>
+    <result property="hotGrade" column="hot_grade"/>
+</resultMap>
+
+<!-- 通用查询字段 -->
+<sql id="commonQuerySql">
+    dish_id,
+    season,
+    oily_degree,
+    dish_type,
+    dish_name,
+    dish_pic,
+    dish_source,
+    dish_desc,
+    hot_grade
+</sql>
+
+<!-- 分页查询菜品 -->
+<select id="queryDishPage" resultMap="baseResultMap" parameterType="com.github.pagehelper.Page">
+    select
+    <include refid="commonQuerySql"/>
+    from bb_dish
+    order by dish_id desc
+</select>
+
+</mapper>

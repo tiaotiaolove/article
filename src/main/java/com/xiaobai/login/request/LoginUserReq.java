@@ -1,5 +1,6 @@
 package com.xiaobai.login.request;
 
+import com.xiaobai.common.base.BaseRequest;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -13,7 +14,7 @@ import java.io.Serializable;
  * @date 2018/12/30.14:08
  */
 @Data
-public class LoginUserReq implements Serializable {
+public class LoginUserReq extends BaseRequest {
     /**
      * 账号
      */

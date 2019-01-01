@@ -1,7 +1,7 @@
 package com.xiaobai.util;
 
 import com.xiaobai.login.entity.LoginUser;
-import com.xiaobai.login.response.LoginResponse;
+import com.xiaobai.login.response.LoginRes;
 import com.xiaobai.login.response.vo.LoginVO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -46,7 +46,7 @@ public final class CommonUtil {
      * @param loginUser
      * @return
      */
-    public static LoginResponse getLoginResponse(LoginUser loginUser, String jwtSecretKey) {
+    public static LoginRes getLoginResponse(LoginUser loginUser, String jwtSecretKey) {
         Date date = new Date();
         String token = Jwts.builder().setSubject(loginUser.getUserId().toString())
                 .signWith(SignatureAlgorithm.HS256, jwtSecretKey)
@@ -57,7 +57,7 @@ public final class CommonUtil {
                 .setExpiration(DateUtils.addMinutes(date, 30))
                 .compact();
 
-        return LoginResponse.builder()
+        return LoginRes.builder()
                 .loginVO(LoginVO.builder()
                         .userPhone(loginUser.getUserPhone())
                         .userNickName(loginUser.getUserNickName())

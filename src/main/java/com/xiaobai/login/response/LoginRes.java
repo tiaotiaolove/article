@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class LoginResponse {
+public class LoginRes {
     /**
      * 登陆VO
      */

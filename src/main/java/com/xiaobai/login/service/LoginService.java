@@ -5,7 +5,7 @@ import com.xiaobai.common.base.ErrorCode;
 import com.xiaobai.login.dao.ILoginDao;
 import com.xiaobai.login.entity.LoginUser;
 import com.xiaobai.login.request.LoginUserReq;
-import com.xiaobai.login.response.LoginResponse;
+import com.xiaobai.login.response.LoginRes;
 import com.xiaobai.util.CommonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class LoginService {
      * @param userReq 输入的用户名与密码
      * @return token
      */
-    public LoginResponse login(LoginUserReq userReq) {
+    public LoginRes login(LoginUserReq userReq) {
         LoginUser user = loginDao.queryOneUser(userReq.getAccount());
         if (user == null) {
             // 用户不存在,即用户名错误
