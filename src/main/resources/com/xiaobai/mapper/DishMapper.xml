@@ -28,10 +28,15 @@
 </sql>
 
 <!-- 分页查询菜品 -->
-<select id="queryDishPage" resultMap="baseResultMap" parameterType="com.github.pagehelper.Page">
+<select id="queryDishList" resultMap="baseResultMap">
     select
     <include refid="commonQuerySql"/>
     from bb_dish
+    <where>
+        <if test="season != null and season != ''">
+            season = #{season}
+        </if>
+    </where>
     order by dish_id desc
 </select>
 

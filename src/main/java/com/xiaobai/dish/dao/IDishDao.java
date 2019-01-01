@@ -5,6 +5,8 @@ import com.xiaobai.dish.entity.Dish;
 import com.xiaobai.dish.request.DishReq;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 菜品管理Dao
  *
@@ -17,7 +19,8 @@ public interface IDishDao {
     /**
      * 根据参数查询菜品分页数据
      *
+     * @param dishReq 参数
      * @return 菜品分页数据
      */
-    Page<Dish> queryDishPage(DishReq dishReq);
+    List<Dish> queryDishList(DishReq dishReq);
 }

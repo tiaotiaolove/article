@@ -28,7 +28,7 @@ public class DishController {
     DishService dishService;
 
     @ApiOperation(value = "获取菜品分页列表", notes = "默认按照创建时间倒序排列")
-    @PostMapping()
+    @PostMapping("/page")
     public BaseResponse dishPage(@RequestBody @Valid @ApiParam(value = "菜品Req") DishReq dishReq) {
         return BaseResponse.success(dishService.queryDishPage(dishReq));
     }

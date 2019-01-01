@@ -2,6 +2,7 @@ package com.xiaobai.dish.service;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xiaobai.dish.dao.IDishDao;
 import com.xiaobai.dish.entity.Dish;
 import com.xiaobai.dish.request.DishReq;
@@ -24,8 +25,8 @@ public class DishService {
     /**
      * 查询菜品分页数据
      */
-    public Page<Dish> queryDishPage(DishReq dishReq) {
+    public PageInfo<Dish> queryDishPage(DishReq dishReq) {
         PageHelper.startPage(dishReq.getPageNum(), dishReq.getPageSize());
-        return dishDao.queryDishPage(dishReq);
+        return new PageInfo<>(dishDao.queryDishList(dishReq));
     }
 }
