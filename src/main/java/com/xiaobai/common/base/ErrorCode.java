@@ -74,6 +74,12 @@ public final class ErrorCode {
      */
     public final static String WRONG_LOGIN_PASSWORD = "K-010002";
 
+    /*=======================================管理员错误码===============================================*/
+    /**
+     * 账号不存在
+     */
+    public final static String NO_ENOUGH_STOCK = "K-110001";
+
     private ErrorCode() {
     }
 }

@@ -23,7 +23,15 @@ public interface IGoodsDao {
     List<Goods> queryGoodsList(Goods goods);
 
     /**
-     * 更新对象
+     * 扣减库存
+     *
+     * @param goods 商品
+     * @return 更新条数
+     */
+    int subtractGoodsStock(Goods goods);
+
+    /**
+     * 更新商品库存
      *
      * @param goods 商品
      * @return 更新条数

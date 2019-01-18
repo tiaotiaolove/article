@@ -37,25 +37,22 @@ public class GoodsController {
         return BaseResponse.success(goodsService.queryGoods(id));
     }
 
-    @ApiOperation(value = "更新商品库存1", notes = "更新商品库存,使用mysql innodb 的行锁防止超卖")
+    @ApiOperation(value = "扣减商品库存1", notes = "更新商品库存,使用mysql innodb 的行锁防止超卖")
     @PutMapping()
     public BaseResponse update(@Valid @RequestBody @ApiParam(value = "商品Req", required = true) Goods goods) {
-        goodsService.updateGoods(goods);
-        return BaseResponse.SUCCESSFUL();
+        return BaseResponse.success(goodsService.updateGoods(goods));
     }
 
-    @ApiOperation(value = "更新商品库存2", notes = "使用分布式锁进行更新商品库存,防止超卖")
+    @ApiOperation(value = "扣减商品库存2", notes = "使用分布式锁进行更新商品库存,防止超卖")
     @PutMapping(value = "/locked")
     public BaseResponse updateLocked(@RequestBody @ApiParam(value = "商品Req", required = true) Goods goods) {
-        goodsService.updateGoodsLocked(goods);
-        return BaseResponse.SUCCESSFUL();
+        return BaseResponse.success(goodsService.updateGoodsLocked(goods));
     }
 
     @ApiOperation(value = "插入多个商品", notes = "批量插入商品,单个插入也使用该API")
     @PostMapping()
     public BaseResponse insertList(@RequestBody @ApiParam(value = "商品List", required = true) List<Goods> goodsList) {
-        goodsService.insertGoodsList(goodsList);
-        return BaseResponse.SUCCESSFUL();
+        return BaseResponse.success(goodsService.insertGoodsList(goodsList));
     }
 
 }

@@ -30,7 +30,15 @@
         WHERE GOODS_INFO_ID = #{id}
     </select>
 
-    <!-- 修改 -->
+    <!-- 扣减库存 -->
+    <update id="subtractGoodsStock">
+        UPDATE GOODS_INFO
+        SET STOCK = STOCK - #{stock}
+        WHERE GOODS_INFO_ID = #{goodsInfoId}
+        AND STOCK >= #{stock}
+    </update>
+
+    <!-- 更新商品库存 -->
     <update id="updateGoods">
         UPDATE GOODS_INFO
         SET STOCK = #{stock}

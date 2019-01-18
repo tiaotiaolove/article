@@ -1,5 +1,7 @@
 package com.xiaobai.goods.service;
 
+import com.xiaobai.common.base.CommonRuntimeException;
+import com.xiaobai.common.base.ErrorCode;
 import com.xiaobai.goods.dao.IGoodsDao;
 import com.xiaobai.goods.entity.Goods;
 import com.xiaobai.util.SleepUtil;
@@ -52,9 +54,15 @@ public class GoodsService {
         RLock rLock = redissonClient.getFairLock(String.format("lock_%s", goods.getGoodsInfoId().toString()));
         rLock.lock();
         try {
-            goodsDao.updateGoods(goods);
-            after = goodsDao.queryGoods(goods.getGoodsInfoId());
+            Goods before = goodsDao.queryGoods(goods.getGoodsInfoId());
             SleepUtil.sleepSomeTime(10000);
+            if (before.getStock() >= goods.getStock()) {
+                goods.setStock(before.getStock() - goods.getStock());
+                goodsDao.updateGoods(goods);
+                after = goodsDao.queryGoods(goods.getGoodsInfoId());
+            } else {
+                throw new CommonRuntimeException(ErrorCode.NO_ENOUGH_STOCK);
+            }
         } finally {
             rLock.unlock();
         }
@@ -64,22 +72,23 @@ public class GoodsService {
     @Transactional(rollbackFor = Exception.class)
     public Goods updateGoods(Goods goods) {
         //更新库存-使用mysql innodb , 行锁启用(主键索引), 将顺序执行该行的update语句
-        log.info("本次更新的条数:{}", Integer.toString(goodsDao.updateGoods(goods)));
-        SleepUtil.sleepSomeTime(1000);
+        int updateCount = goodsDao.subtractGoodsStock(goods);
+        log.info("本次更新的条数:{}", updateCount);
+        SleepUtil.sleepSomeTime(10000);
+        if (updateCount < 1) {
+            throw new CommonRuntimeException(ErrorCode.NO_ENOUGH_STOCK);
+        }
 
         //测试是否能够查询到修改后的库存
         Goods after = goodsDao.queryGoods(goods.getGoodsInfoId());
         log.info("执行之后数据为:{}", after);
-        //测试是否回滚
-        String a = null;
-        a.toLowerCase();
         return after;
     }
 
     @Transactional(rollbackFor = Exception.class)
     public int insertGoodsList(List<Goods> goodsList) {
         int count = goodsDao.insertGoodsList(goodsList);
-        log.info("本次插入的条数:{}", Integer.toString(count));
+        log.info("本次插入的条数:{}", count);
         return count;
     }
 
