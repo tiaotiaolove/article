@@ -101,7 +101,7 @@ public class JwtInterceptor implements WebRequestInterceptor {
                 // 2.再从请求路径中获取token
                 token = parseExportUrlToken(servletPath);
                 if (token == null) {
-                    log.info("JwtInterceptor preHandle out ['Missing jwtToken']");
+                    log.info("JwtInterceptor preHandle out ['{} Missing jwtToken']", servletPath);
                     throw new CommonRuntimeException(ErrorCode.MISSING_TOKEN);
                 }
             }
@@ -111,10 +111,10 @@ public class JwtInterceptor implements WebRequestInterceptor {
                 webRequest.setAttribute("claims", claims, RequestAttributes.SCOPE_REQUEST);
                 log.debug("JwtInterceptor preHandle out ['Authorization success']");
             } catch (ExpiredJwtException e) {
-                log.info("JwtInterceptor preHandle out ['Expired jwtToken'], exMsg:{}", e.getMessage());
+                log.info("JwtInterceptor preHandle out ['{} Expired jwtToken'], exMsg:{}", servletPath, e.getMessage());
                 throw new CommonRuntimeException(ErrorCode.EXPIRED_TOKEN);
             } catch (Exception e) {
-                log.info("JwtInterceptor preHandle out ['Invalid jwtToken'], exMsg:{}", e.getMessage());
+                log.info("JwtInterceptor preHandle out ['{} Invalid jwtToken'], exMsg:{}", servletPath, e.getMessage());
                 throw new CommonRuntimeException(ErrorCode.INVALID_TOKEN);
             }
         }
