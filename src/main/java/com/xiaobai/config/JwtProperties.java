@@ -32,7 +32,7 @@ public class JwtProperties {
     /**
      * 私钥信息
      */
-    private String secretKey;
+    private String secretKey = "defaultKey";
 
     /**
      * 获取jwt信息请求头header中的key

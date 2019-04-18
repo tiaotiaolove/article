@@ -27,16 +27,17 @@ public class BlogApplication {
         String port = env.getProperty("server.port", "8088");
         String healthPort = env.getProperty("management.port", "9001");
 
-        log.info("Access URLs:\n----------------------------------------------------------\n\t"
-                        + "Local: \t\thttp://localhost:{}\n\t"
-                        + "External: \thttp://{}:{}\n\t"
-                        + "health: " +
-                        "\thttp://localhost:{}/actuator/health\n" +
-                        "----------------------------------------------------------",
+        log.info("Access URLs:\n----------------------------------------------------------\n"
+                        + "Local: \t\thttp://localhost:{}\n"
+                        + "External: \thttp://{}:{}\n"
+                        + "health: \thttp://localhost:{}/actuator/health\n"
+                        + "Swagger: \thttp://localhost:{}/swagger-ui.html\n"
+                        + "----------------------------------------------------------",
                 port,
                 InetAddress.getLocalHost().getHostAddress(),
                 port,
-                healthPort
+                healthPort,
+                port
         );
     }
 }

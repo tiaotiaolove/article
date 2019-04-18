@@ -4,7 +4,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.time.DateUtils;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -32,9 +33,11 @@ import java.util.List;
 @Profile({"local", "dev", "develop", "test"})
 @Configuration
 @EnableSwagger2
+@EnableConfigurationProperties(JwtProperties.class)
 public class SwaggerConfiguration {
-    @Value("${jwt.secretKey}")
-    private String jwtSecretKey;
+
+    @Autowired
+    private JwtProperties jwtProperties;
 
     @Bean
     public Docket restfulApi() {
@@ -63,7 +66,7 @@ public class SwaggerConfiguration {
         List<Parameter> pars = new ArrayList<>();
         Date date = new Date();
         String token = Jwts.builder().setSubject("1")
-                .signWith(SignatureAlgorithm.HS256, jwtSecretKey)
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
                 .setIssuedAt(date)
                 .claim("userPhone", "17368331673")
                 .claim("ip", "localhost")

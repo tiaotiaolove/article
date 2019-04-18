@@ -2,6 +2,7 @@ package com.xiaobai.login.service;
 
 import com.xiaobai.common.base.CommonRuntimeException;
 import com.xiaobai.common.base.ErrorCode;
+import com.xiaobai.config.JwtProperties;
 import com.xiaobai.login.dao.ILoginDao;
 import com.xiaobai.login.entity.LoginUser;
 import com.xiaobai.login.request.LoginUserReq;
@@ -9,7 +10,6 @@ import com.xiaobai.login.response.LoginRes;
 import com.xiaobai.util.CommonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
@@ -27,8 +27,8 @@ public class LoginService {
     @Autowired
     private ILoginDao loginDao;
 
-    @Value("${jwt.secretKey}")
-    private String jwtSecretKey;
+    @Autowired
+    private JwtProperties jwtProperties;
 
     /**
      * 登陆逻辑
@@ -50,7 +50,7 @@ public class LoginService {
                 throw new CommonRuntimeException(ErrorCode.WRONG_LOGIN_PASSWORD);
             }
         }
-        return CommonUtil.getLoginResponse(user, jwtSecretKey);
+        return CommonUtil.getLoginResponse(user, jwtProperties.getSecretKey());
     }
 
     /**
