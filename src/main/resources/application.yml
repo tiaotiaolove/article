@@ -61,17 +61,9 @@ spring:
     host: 140.143.97.102
     password: pWTYnFuGeS7kEvST
     timeout: 2000ms
-  #activemq config
-  activemq:
-    broker-url: tcp://172.19.26.193:61616
-    in-memory: true
-    user: admin
-    password: admin
-    pool:
-      enabled: true
-      expiry-timeout: 0ms
-      idle-timeout: 30s
-      max-connections: 1
+  #jpa配置
+  jpa:
+    show-sql: true
 
 #redisson配置
 redisson:
