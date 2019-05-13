@@ -16,15 +16,16 @@ import javax.persistence.*;
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
-    @Column
+    @Column(name = "name")
     private String name;
 
-    @Column
+    @Column(name = "age")
     private int age;
 
-    @Column
+    @Column(name = "sex")
     private int sex;
 
 }

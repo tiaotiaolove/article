@@ -16,13 +16,14 @@ import javax.persistence.*;
 public class StudentDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
-    @Column
-    private String nick_name;
+    @Column(name = "nick_name")
+    private String nickName;
 
-    @Column
-    private int student_no;
+    @Column(name = "student_no")
+    private int studentNo;
 
     @OneToOne()
     @JoinColumn(name = "stu_id", insertable = false, updatable = false)
