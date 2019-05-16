@@ -47,6 +47,7 @@ public class StudentController {
                                  @ApiParam(value = "学生查询Req", required = true) StudentQueryRequest studentQueryRequest) {
         studentQueryRequest.putSort("studentNo", "desc");
         studentQueryRequest.putSort("nickName", "asc");
+        studentQueryRequest.putSort("student.age", "asc");
 //        return BaseResponse.success(studentDetailDao.findAll(getDetailWhereCriteria()));
         return BaseResponse.success(studentDetailDao.findAll(getDetailWhereCriteria(), studentQueryRequest.getSort()));
     }
