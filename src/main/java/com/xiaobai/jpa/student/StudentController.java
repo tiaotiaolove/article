@@ -1,6 +1,7 @@
 package com.xiaobai.jpa.student;
 
 import com.xiaobai.common.base.BaseResponse;
+import com.xiaobai.jpa.student.dao.StudentDao;
 import com.xiaobai.jpa.student.dao.StudentDetailDao;
 import com.xiaobai.jpa.student.entity.Student;
 import com.xiaobai.jpa.student.entity.StudentDetail;
@@ -8,6 +9,7 @@ import com.xiaobai.jpa.student.request.StudentQueryRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,13 +33,19 @@ import java.util.List;
 @Api(tags = "StudentController", description = "学生查询API")
 @RestController()
 @RequestMapping("/student")
+@Slf4j
 public class StudentController {
+    @Autowired
+    StudentDao studentDao;
+
     @Autowired
     StudentDetailDao studentDetailDao;
 
     @ApiOperation(value = "获取学生详情列表", notes = "默认按照年龄倒序排列")
     @PostMapping("/list")
     public BaseResponse list() {
+        List list = studentDao.queryMaxAgeGroupByAge();
+        log.info("group by result===>", list);
         return BaseResponse.success(studentDetailDao.queryJoinTest());
     }
 
