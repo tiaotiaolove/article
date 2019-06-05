@@ -7,12 +7,12 @@ info:
 
 #端口配置
 server:
-  port: 8080
+  port: 8180
 
 #监控spring boot项目
 management:
   server:
-    port: 9001
+    port: 8189
   health:
     mail:
       enabled: false

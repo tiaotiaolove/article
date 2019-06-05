@@ -24,8 +24,8 @@ public class BlogApplication {
 
     public static void main(String[] args) throws UnknownHostException {
         Environment env = SpringApplication.run(BlogApplication.class, args).getEnvironment();
-        String port = env.getProperty("server.port", "8088");
-        String healthPort = env.getProperty("management.port", "9001");
+        String port = env.getProperty("server.port", "8080");
+        String healthPort = env.getProperty("management.server.port", "8085");
 
         log.info("Access URLs:\n----------------------------------------------------------\n"
                         + "Local: \t\thttp://localhost:{}\n"
