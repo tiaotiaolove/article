@@ -9,15 +9,6 @@ info:
 server:
   port: 8180
 
-# log打印配置
-logging:
-  level:
-    root: INFO
-    # DEBUG 可以打印请求路径,事务,返回的view等
-    org.springframework: INFO
-    # DEBUG 可以打印Mybatis的sql
-    com.xiaobai: DEBUG
-
 # mybatis配置
 mybatis:
   # mapperLocations中的classpath指的路径是: src/main/resources

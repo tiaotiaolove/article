@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <!-- 日志基础路径 -->
+    <property name="LOG_PATH" value="/data/application/logs" />
+
+    <!-- 输出日志到文件，可选择按照文件大小进行滚动 （即归档） -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/biz.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rolling daily -->
+            <fileNamePattern>${LOG_PATH}/biz_%d{yyyy-MM-dd_HH}.%i.log</fileNamePattern>
+            <!-- 每个文件最大100MB，即在单位时间（例如一个小时）内，可能会产生多个文件，各文件以1、2、3…阿拉伯数字来标示 -->
+            <maxFileSize>100MB</maxFileSize>
+            <!-- 保留72小时（或天，根据fileNamePattern来决定单位）的历史日志 -->
+            <maxHistory>72</maxHistory>
+            <!-- 所有归档文件（不包括当前文件）的总大小不超过5GB，注意只有在日志发生滚动的时候(或者应用启动时,需配置cleanHistoryOnStart参数为true)才会触发清理工作，因此假设按照天来滚动，而当天的日志量非常大，那么实际的日志文件大小总和是有可能超过totalSizeCap的 -->
+            <totalSizeCap>5GB</totalSizeCap>
+            <!-- 在应用启动的时候，判断总日志文件大小总和是否超过totalSizeCap，若超过则删除最老的日志归档文件。默认false -->
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--将上面配置的“FILE” appender包装成异步方式来提高性能，但是在高并发写日志请求的情况下默认会丢弃低级别日志，当然也可以选择配置不丢弃日志，但业务线程阻塞，注意只有logback-classic 1.0.4+才支持AsyncAppender -->
+    <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 注意一个AsyncAppender只能引用一个appender，不能引用多个 -->
+        <appender-ref ref="FILE" />
+        <!-- 队列大小（整型，默认值为256，相当于最大可以同时缓存256个写日志请求到内存），值越大，高并发写日志请求的情况下越能提升程序性能，但同时也会占用更多的堆内存。建议结合压测来调整合适的队列大小  -->
+        <queueSize>256</queueSize>
+        <!-- 阈值（整型，默认值为队列大小queueSize的20%）。默认当队列的剩余空间小于此阈值时， 则会丢弃TRACE、DEBUG、INFO级别的日志，保留WARN、ERROR级别的日志 。如果设置为0，表示先将队列空间全部使用掉，当队列满时，再决定阻塞业务线程，还是丢弃日志（需配置neverBlock属性为true） -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 当队列满时，是否丢弃日志，默认false -->
+        <neverBlock>false</neverBlock>
+    </appender>
+
+    <!-- 输出日志到控制台 ※※※pre/pst/prd环境必须去除※※※ -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!--控制台输出格式: %d表示日期, %thread表示线程名, %-5level表示级别从左显示5个字符宽度, %msg表示日志消息, %n是换行符-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 指定package的日志打印级别 additivity:默认为true,表示打印信息会向上级目录传递(冒泡),所以日志也会输出父目录指定的appender,最终到root指定的appender上,从而会在多个appender上打印, false则只会输出到自己指定的appender上 -->
+    <logger name="com.xiaobai" additivity="true">
+        <level value="DEBUG" />
+    </logger>
+
+    <logger name="org.springframework.web" level="INFO" />
+
+    <!-- 祖先根 日志输出级别(TRACE < DEBUG < INFO < WARN < ERROR) -->
+    <root level="INFO">
+        <appender-ref ref="ASYNC_FILE" />
+        <!-- ※※※生产环境必须去除※※※ -->
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
