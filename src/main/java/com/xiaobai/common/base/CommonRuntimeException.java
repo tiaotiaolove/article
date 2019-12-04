@@ -12,10 +12,16 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class CommonRuntimeException extends RuntimeException {
+    private static final long serialVersionUID = 1L;
+
     /**
      * 错误码
      */
     private String errorCode = ErrorCode.FAILED;
+    /**
+     * 错误描述
+     */
+    private String errorMessage;
     /**
      * 错误描述中需要的动态参数
      */
@@ -46,7 +52,7 @@ public class CommonRuntimeException extends RuntimeException {
      * @param errorCode
      * @param params
      */
-    public CommonRuntimeException(String errorCode, Object[] params) {
+    public CommonRuntimeException(String errorCode, Object... params) {
         super(errorCode);
         this.errorCode = errorCode;
         this.params = params;
@@ -61,5 +67,18 @@ public class CommonRuntimeException extends RuntimeException {
     public CommonRuntimeException(String errorCode, Throwable cause) {
         super(errorCode, cause);
         this.errorCode = errorCode;
+    }
+
+    /**
+     * 错误码 + 上级异常 + 错误描述信息中需要的动态参数
+     *
+     * @param errorCode
+     * @param cause
+     * @param params
+     */
+    public CommonRuntimeException(String errorCode, Throwable cause, Object... params) {
+        super(errorCode, cause);
+        this.errorCode = errorCode;
+        this.params = params;
     }
 }

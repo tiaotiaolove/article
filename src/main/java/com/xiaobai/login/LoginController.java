@@ -6,7 +6,6 @@ import com.xiaobai.login.response.LoginRes;
 import com.xiaobai.login.service.LoginService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +18,7 @@ import java.util.Base64;
  * @author bail
  * @date 2018/12/29.17:35
  */
-@Api(tags = "LoginController", description = "用户登录/登出API")
+@Api(tags = "LoginController-用户登录/登出API")
 @RestController()
 @RequestMapping("/user")
 public class LoginController {
@@ -31,8 +30,7 @@ public class LoginController {
      */
     @ApiOperation(value = "管理员登录", notes = "base64编码即可")
     @PostMapping(value = "/login")
-    public BaseResponse<LoginRes> login(@Valid @RequestBody
-                                  @ApiParam(value = "登陆用户Req", required = true) LoginUserReq loginUserReq) {
+    public BaseResponse<LoginRes> login(@Valid @RequestBody LoginUserReq loginUserReq) {
         String account = new String(Base64.getUrlDecoder().decode(loginUserReq.getAccount().getBytes()));
         String password = new String(Base64.getUrlDecoder().decode(loginUserReq.getPassword().getBytes()));
         loginUserReq.setAccount(account);

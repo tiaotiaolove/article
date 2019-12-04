@@ -13,10 +13,12 @@ import java.time.LocalDateTime;
  */
 @Data
 public class Dish implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     /**
      * 菜品id
      */
-    private Integer dishId;
+    private Long dishId;
     /**
      * 适合季节(0,1,2,3分别代表春夏秋冬)
      */

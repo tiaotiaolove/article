@@ -3,6 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<!-- 将spring-boot-starter-parent作为父pom -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.1.RELEASE</version>
+	</parent>
+
 	<groupId>com.xiaobai</groupId>
 	<artifactId>article</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -11,27 +18,14 @@
 	<name>article</name>
 	<description>article for ourSelf</description>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.2.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<!--各插件版本号-->
-		<java.version>1.8</java.version>
-		<lombok.version>1.16.18</lombok.version>
-		<pagehelper.version>1.2.5</pagehelper.version>
-		<druid.version>1.1.9</druid.version>
-		<redisson.version>3.7.0</redisson.version>
-		<springfox.version>2.7.0</springfox.version>
-		<apache.commons-collections4.version>4.1</apache.commons-collections4.version>
-		<apache.commons-lang3.version>3.7</apache.commons-lang3.version>
-		<fastjson.version>1.2.47</fastjson.version>
-		<jwt.version>0.5.1</jwt.version>
+		<!--各依赖版本号-->
+		<jjwt.version>0.9.1</jjwt.version>
+		<pagehelper.version>1.2.13</pagehelper.version>
+		<druid.version>1.1.21</druid.version>
+		<springfox.version>2.9.2</springfox.version>
+		<apache.commons-collections4.version>4.4</apache.commons-collections4.version>
+		<fastjson.version>1.2.62</fastjson.version>
 	</properties>
 
 	<dependencies>
@@ -39,60 +33,48 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>${lombok.version}</version>
-			<optional>true</optional>
 		</dependency>
+
+		<!-- jwt token凭证生成器 -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>${jjwt.version}</version>
+		</dependency>
+
 		<!--Mybatis 分页工具,内部集成了mybatis-spring-boot-starter-->
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper-spring-boot-starter</artifactId>
 			<version>${pagehelper.version}</version>
 		</dependency>
-        <!--spring jpa 引入多个持久层框架用于测试区别-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>javassist</artifactId>
-					<groupId>org.javassist</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!--MySQL的JDBC驱动包-->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+
 		<!--阿里druid数据库连接池-->
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
 			<version>${druid.version}</version>
 		</dependency>
+
+		<!--MySQL的JDBC驱动包-->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
 		<!--Web开发,spring mvc(内置tomcat)-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<!--帮助监控Spring Boot项目,如:/actuator/health,/actuator/info-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-        <!--redis-->
-        <dependency>
+
+        <!-- redis -->
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-		<!--redisson-->
-		<dependency>
-			<groupId>org.redisson</groupId>
-			<artifactId>redisson</artifactId>
-			<version>${redisson.version}</version>
-		</dependency>
-		<!--swagger2-->
+        </dependency>-->
+
+		<!-- swagger2 API可视化 -->
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
@@ -103,38 +85,23 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>${springfox.version}</version>
 		</dependency>
-		<!--apache.commons工具包-->
+
+		<!-- apache.commons工具包 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-collections4</artifactId>
 			<version>${apache.commons-collections4.version}</version>
-			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>${apache.commons-lang3.version}</version>
-			<optional>true</optional>
 		</dependency>
-		<!--json字符串转换,解析工具包-->
+
+		<!-- json字符串转换,解析工具包 -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 			<version>${fastjson.version}</version>
-			<optional>true</optional>
-		</dependency>
-		<!--jwt token凭证生成器-->
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt</artifactId>
-			<version>${jwt.version}</version>
-			<optional>true</optional>
-		</dependency>
-		<!--junit单元测试-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
 		</dependency>
 
 	</dependencies>
@@ -148,6 +115,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
 
 </project>

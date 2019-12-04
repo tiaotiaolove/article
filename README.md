@@ -5,13 +5,14 @@
 1.spring boot
 2.spring mvc
 3.mybatis
+4.jwtToken
 
 ## 提示
 application.yml中
 ```yaml
 spring:
   profiles:
-    #local/dev/develop/test 才生成swagger2 API接口,访问url为/swagger-ui.html
+    # local环境 才生成swagger2 API接口,访问url为/swagger-ui.html
     active: local
 ```
 

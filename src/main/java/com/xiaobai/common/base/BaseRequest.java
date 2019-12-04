@@ -13,6 +13,8 @@ import java.io.Serializable;
  */
 @Data
 public class BaseRequest implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     /**
      * 统一参数校验入口
      */

@@ -1,11 +1,10 @@
 package com.xiaobai.dish.service;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xiaobai.dish.dao.IDishDao;
-import com.xiaobai.dish.entity.Dish;
-import com.xiaobai.dish.request.DishReq;
+import com.xiaobai.dish.request.DishQueryReq;
+import com.xiaobai.dish.response.DishRes;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +24,8 @@ public class DishService {
     /**
      * 查询菜品分页数据
      */
-    public PageInfo<Dish> queryDishPage(DishReq dishReq) {
-        PageHelper.startPage(dishReq.getPageNum(), dishReq.getPageSize());
-        return new PageInfo<>(dishDao.queryDishList(dishReq));
+    public PageInfo<DishRes> queryDishPage(DishQueryReq dishQueryReq) {
+        PageHelper.startPage(dishQueryReq.getPageNum(), dishQueryReq.getPageSize());
+        return new PageInfo<>(dishDao.queryDishList(dishQueryReq));
     }
 }

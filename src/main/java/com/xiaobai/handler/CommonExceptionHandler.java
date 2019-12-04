@@ -4,18 +4,25 @@ import com.xiaobai.common.base.BaseResponse;
 import com.xiaobai.common.base.CommonRuntimeException;
 import com.xiaobai.common.base.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MultipartException;
 
 import javax.annotation.Resource;
 import javax.validation.ConstraintViolationException;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * 异常统一处理
@@ -41,43 +48,106 @@ public class CommonExceptionHandler {
     @ExceptionHandler(CommonRuntimeException.class)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public BaseResponse commonRuntimeExceptionHandler(CommonRuntimeException ex) {
+    public BaseResponse myBusinessExceptionHandler(CommonRuntimeException ex) {
         String errorCode = ex.getErrorCode();
-        String msg = this.getMessage(errorCode, ex.getParams());
+        String msg = StringUtils.isEmpty(ex.getErrorMessage()) ? this.getMessage(errorCode, ex.getParams()) : ex.getErrorMessage();
         log.error(LOGGER_FORMAT, ex.getErrorCode(), msg, ex);
         return BaseResponse.info(errorCode, msg);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    /**
+     * 400参数异常(1)
+     * 在Controller多个散开的入参@RequestParam(required = true)的场景
+     *
+     * @param ex 参数异常
+     * @return 基类数据格式的返回对象
+     */
+    @ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public BaseResponse validationExceptionHandle(MethodArgumentNotValidException ex) {
-        log.error("400, Bad Request, MethodArgumentNotValidException=>", ex);
-        return new BaseResponse(ErrorCode.PARAMETER_ERROR);
+    public BaseResponse missingServletRequestParameterExceptionHandler(MissingServletRequestParameterException ex) {
+        String msg = this.getMessage(ErrorCode.PARAMETER_ERROR, null);
+        log.error(LOGGER_FORMAT, ErrorCode.PARAMETER_ERROR, "400, Bad Request, MissingServletRequestParameterException=>", new CommonRuntimeException(ErrorCode.PARAMETER_ERROR, ex));
+        return BaseResponse.info(ErrorCode.PARAMETER_ERROR, String.format("%s,%s必传", msg, ex.getParameterName()));
     }
 
+    /**
+     * 400参数异常(2)
+     * 在Controller中@RequestParam(value = "file") MultipartFile file入参未传值的场景
+     *
+     * @param ex 参数异常
+     * @return 基类数据格式的返回对象
+     */
+    @ExceptionHandler(MultipartException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public BaseResponse multipartExceptionHandler(MultipartException ex) {
+        String msg = this.getMessage(ErrorCode.PARAMETER_ERROR, null);
+        log.error(LOGGER_FORMAT, ErrorCode.PARAMETER_ERROR, "400, Bad Request, MultipartException=>", new CommonRuntimeException(ErrorCode.PARAMETER_ERROR, ex));
+        return BaseResponse.info(ErrorCode.PARAMETER_ERROR, String.format("%s,请选择上传的文件", msg));
+    }
+
+    /**
+     * 400参数异常(3)
+     * 在Controller多个散开的入参前面加类似@Max(value = 5)的场景
+     *
+     * @param ex 参数异常
+     * @return 基类数据格式的返回对象
+     */
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public BaseResponse constraintViolationExceptionHandle(ConstraintViolationException ex) {
-        final StringBuilder sb = new StringBuilder();
-        ex.getConstraintViolations().forEach(
-                i -> sb
-                        .append(i.getRootBeanClass().getName())
-                        .append(".")
-                        .append(i.getPropertyPath())
-                        .append(i.getMessage()).append("\r\n")
-        );
-        log.error("400, Bad Request, ConstraintViolationException=>", sb);
-        return new BaseResponse(ErrorCode.PARAMETER_ERROR);
+    public BaseResponse constraintViolationExceptionHandler(ConstraintViolationException ex) {
+        String errMsg = ex.getConstraintViolations().stream().map(err -> {
+            Iterator i = err.getPropertyPath().iterator();
+            String errName = "";
+            while (i.hasNext()) {
+                errName = i.next().toString();
+            }
+            return errName + " " + err.getMessage();
+        }).collect(Collectors.joining(","));
+        String msg = this.getMessage(ErrorCode.PARAMETER_ERROR, null);
+        log.error(LOGGER_FORMAT, ErrorCode.PARAMETER_ERROR, "400, Bad Request, ConstraintViolationException=>" + errMsg, new CommonRuntimeException(ErrorCode.PARAMETER_ERROR, ex));
+        return BaseResponse.info(ErrorCode.PARAMETER_ERROR, String.format("%s,%s", msg, errMsg));
     }
 
-    @ExceptionHandler(IllegalStateException.class)
+    /**
+     * 400参数异常(4)
+     * 在Controller单个@RequestBody @Valid入参内部属性加类似@Max(value = 5)的场景
+     *
+     * @param ex 参数异常
+     * @return 基类数据格式的返回对象
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public BaseResponse illegalStateExceptionHandle(IllegalStateException ex) {
-        log.error("400, Bad Request, IllegalStateException=>", ex);
-        return new BaseResponse(ErrorCode.PARAMETER_ERROR);
+    public BaseResponse methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
+        String msg = this.getMessage(ErrorCode.PARAMETER_ERROR, null);
+        log.error(LOGGER_FORMAT, ErrorCode.PARAMETER_ERROR, "400, Bad Request, MethodArgumentNotValidException", new CommonRuntimeException(ErrorCode.PARAMETER_ERROR, ex));
+        String errorMsg = ex.getBindingResult().getAllErrors().stream().map(err -> {
+            String retMsg = err.getDefaultMessage();
+            if (err instanceof FieldError) {
+                retMsg = ((FieldError) err).getField() + " " + retMsg;
+            }
+            return retMsg;
+        }).collect(Collectors.joining(","));
+        return BaseResponse.info(ErrorCode.PARAMETER_ERROR, String.format("%s,%s", msg, errorMsg));
+    }
+
+    /**
+     * 400参数异常(5)
+     * 在Controller单个@RequestBody,却没有传入格式正确的json字符串{}
+     *
+     * @param ex 参数异常
+     * @return 基类数据格式的返回对象
+     */
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public BaseResponse httpMessageNotReadableExceptionHandler(HttpMessageNotReadableException ex) {
+        String msg = this.getMessage(ErrorCode.PARAMETER_ERROR, null);
+        log.error(LOGGER_FORMAT, ErrorCode.PARAMETER_ERROR, "400, Bad Request, HttpMessageNotReadableException=>", new CommonRuntimeException(ErrorCode.PARAMETER_ERROR, ex));
+        return BaseResponse.info(ErrorCode.PARAMETER_ERROR, String.format("%s,请传入正确格式的json参数", msg));
     }
 
     /**
@@ -90,8 +160,7 @@ public class CommonExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public BaseResponse defaultExceptionHandler(Throwable ex) {
-        String msg = ex.getMessage();
-        log.error(LOGGER_FORMAT, "defaultException", msg, ex);
+        log.error(LOGGER_FORMAT, "defaultException", ex.getClass().getSimpleName() + "=>", ex);
         return BaseResponse.FAILED();
     }
 
@@ -106,6 +175,7 @@ public class CommonExceptionHandler {
         try {
             return messageSource.getMessage(code, params, Locale.CHINA);
         } catch (NoSuchMessageException e) {
+            log.error("通过errorCode获取message出错 ===> ", e);
             return code;
         }
     }

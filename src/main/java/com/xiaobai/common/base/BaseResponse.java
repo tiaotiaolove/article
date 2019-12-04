@@ -1,12 +1,10 @@
 package com.xiaobai.common.base;
 
-import com.xiaobai.util.MessageSourceUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Locale;
 
 /**
  * 响应基类
@@ -17,6 +15,7 @@ import java.util.Locale;
 @ApiModel(value = "BaseResponse", description = "响应基类")
 @Data
 public class BaseResponse<T> implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "结果码", required = true)
     private String code;
@@ -28,11 +27,6 @@ public class BaseResponse<T> implements Serializable {
     private T context;
 
     private BaseResponse() {
-    }
-
-    public BaseResponse(String code) {
-        this.code = code;
-        this.message = MessageSourceUtil.getMessage(code, null, Locale.CHINA);
     }
 
     private BaseResponse(String code, String message) {
@@ -52,7 +46,7 @@ public class BaseResponse<T> implements Serializable {
      * @return 通用成功码 + 通用成功描述
      */
     public static BaseResponse SUCCESSFUL() {
-        return new BaseResponse(ErrorCode.SUCCESSFUL);
+        return new BaseResponse(ErrorCode.SUCCESSFUL, "操作成功");
     }
 
     /**
@@ -61,7 +55,7 @@ public class BaseResponse<T> implements Serializable {
      * @return 通用错误码 + 通用错误描述
      */
     public static BaseResponse FAILED() {
-        return new BaseResponse(ErrorCode.FAILED);
+        return new BaseResponse(ErrorCode.FAILED, "操作失败");
     }
 
     /**
@@ -70,8 +64,7 @@ public class BaseResponse<T> implements Serializable {
      * @param context 内容
      */
     public static <T> BaseResponse<T> success(T context) {
-        String message = MessageSourceUtil.getMessage(ErrorCode.SUCCESSFUL, null, Locale.CHINA);
-        return new BaseResponse<>(ErrorCode.SUCCESSFUL, message, context);
+        return new BaseResponse<>(ErrorCode.SUCCESSFUL, "操作成功", context);
     }
 
     /**

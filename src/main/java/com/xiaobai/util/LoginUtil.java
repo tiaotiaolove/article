@@ -16,12 +16,12 @@ import java.util.Date;
  * @author bail
  * @date 2018/12/31
  */
-public final class CommonUtil {
+public final class LoginUtil {
 
     /**
      * 获取当前登录人id
      */
-    public static Integer getUserId() {
+    public static Long getUserId() {
         return getUser().getUserId();
     }
 
@@ -34,7 +34,7 @@ public final class CommonUtil {
         if (claims == null) {
             return user;
         } else {
-            user.setUserId(Integer.parseInt(claims.getSubject()));
+            user.setUserId(Long.parseLong(claims.getSubject()));
             user.setUserPhone(String.valueOf(claims.get("userPhone")));
         }
         return user;

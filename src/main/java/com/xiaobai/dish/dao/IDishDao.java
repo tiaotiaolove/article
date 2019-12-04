@@ -1,8 +1,7 @@
 package com.xiaobai.dish.dao;
 
-import com.github.pagehelper.Page;
-import com.xiaobai.dish.entity.Dish;
-import com.xiaobai.dish.request.DishReq;
+import com.xiaobai.dish.request.DishQueryReq;
+import com.xiaobai.dish.response.DishRes;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,8 +18,8 @@ public interface IDishDao {
     /**
      * 根据参数查询菜品分页数据
      *
-     * @param dishReq 参数
+     * @param dishQueryReq 参数
      * @return 菜品分页数据
      */
-    List<Dish> queryDishList(DishReq dishReq);
+    List<DishRes> queryDishList(DishQueryReq dishQueryReq);
 }

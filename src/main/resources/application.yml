@@ -1,82 +1,65 @@
-#基本信息
+# 应用基本信息
 info:
   app:
     name: ArticlePlatform
     description: 文章标准平台
-    version: 1.0.0-SNAPSHOT
+    version: 0.0.1-SNAPSHOT
 
-#端口配置
+# 服务端口配置
 server:
   port: 8180
 
-#监控spring boot项目
-management:
-  server:
-    port: 8189
-  health:
-    mail:
-      enabled: false
-
-#log config
+# log打印配置
 logging:
   level:
     root: INFO
-    #DEBUG 可以打印请求路径,事务,返回的view等
+    # DEBUG 可以打印请求路径,事务,返回的view等
     org.springframework: INFO
-    #DEBUG 可以打印Mybatis的sql
+    # DEBUG 可以打印Mybatis的sql
     com.xiaobai: DEBUG
 
-#mapperLocations中的classpath指的路径是src/main/resources
+# mybatis配置
 mybatis:
-  type-aliases-package: com.xiaobai.*.entity
+  # mapperLocations中的classpath指的路径是: src/main/resources
   mapper-locations: classpath:com/xiaobai/mapper/*.xml
 
-#mybatis 分页工具配置
+# mybatis 分页工具配置
 pagehelper:
-  helperDialect: mysql                           #分页插件方言选择
-  reasonable: true                               #合理化参数，设为true时pageNum<=0 时会查第一页， pageNum>pages（超过总数时），会查询最后一页
+  # 分页插件方言选择
+  helperDialect: mysql
+  # 合理化参数，设为true时pageNum<=0 时会查第一页， pageNum>pages（超过总数时），会查询最后一页
+  reasonable: true
   supportMethodsArguments: true
   params: count=countSql
 
-#spring相关配置
+# spring相关配置
 spring:
   profiles:
-    #本配置文件适用于本机开发环境
+    # 本配置文件适用于本机开发环境
     active: local
   # 国际化i18n MessageSource配置
   messages:
     basename: i18n/ResultCode
     cache-duration: 3600s
-  #mysql数据源配置
+  # mysql数据源配置
   datasource:
-    url: jdbc:mysql://localhost:3306/bb_dish?characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/bb_dish?serverTimezone=UTC
     username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
-  #redis配置
-  redis:
-    database: 0
-    host: 140.143.97.102
-    password: pWTYnFuGeS7kEvST
-    timeout: 2000ms
-  #jpa配置
-  jpa:
-    show-sql: true
 
-#redisson配置
-redisson:
-  address: redis://140.143.97.102:6379
-  database: 1
-  password: pWTYnFuGeS7kEvST
-  timeout: 3000
-  connectionPoolSize: 64
-  connectionMinimumIdleSize: 10
+  # redis配置
+#  redis:
+#    database: 0
+#    host: 140.143.97.102
+#    password: pWTYnFuGeS7kEvST
+#    timeout: 2000ms
 
-#JWT token认证配置
+# JWT token认证配置
 jwt:
   secretKey: 7b613a6a0ca011e9ab14d663bd873d937b613a6a0ca011e9ab14d663bd873d93
   urlPatterns: /**
-  excludedUrls: /webjars/springfox-swagger-ui/**,/swagger-resources/**,/swagger-ui.html,/user/login
+  excludedUrls: /,/csrf,/error,/webjars/springfox-swagger-ui/**,/swagger-resources/**,/swagger-ui.html,/user/login
 

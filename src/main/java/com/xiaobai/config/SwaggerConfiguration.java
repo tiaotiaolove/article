@@ -30,7 +30,7 @@ import java.util.List;
  * @author bail
  * @date 2018/6/7.15:58
  */
-@Profile({"local", "dev", "develop", "test"})
+@Profile({"local"})
 @Configuration
 @EnableSwagger2
 @EnableConfigurationProperties(JwtProperties.class)

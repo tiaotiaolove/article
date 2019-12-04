@@ -7,7 +7,7 @@ import com.xiaobai.login.dao.ILoginDao;
 import com.xiaobai.login.entity.LoginUser;
 import com.xiaobai.login.request.LoginUserReq;
 import com.xiaobai.login.response.LoginRes;
-import com.xiaobai.util.CommonUtil;
+import com.xiaobai.util.LoginUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,7 +50,7 @@ public class LoginService {
                 throw new CommonRuntimeException(ErrorCode.WRONG_LOGIN_PASSWORD);
             }
         }
-        return CommonUtil.getLoginResponse(user, jwtProperties.getSecretKey());
+        return LoginUtil.getLoginResponse(user, jwtProperties.getSecretKey());
     }
 
     /**
@@ -60,7 +60,7 @@ public class LoginService {
      * @return 加密后的字符串
      */
     private static String toHexString(byte[] b) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < b.length; ++i) {
             sb.append("0123456789abcdef".charAt(b[i] >>> 4 & 15));

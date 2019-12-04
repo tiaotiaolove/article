@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xiaobai.dish.dao.IDishDao">
 <!-- 基础结果集 -->
-<resultMap id="baseResultMap" type="com.xiaobai.dish.entity.Dish">
+<resultMap id="baseResultMap" type="com.xiaobai.dish.response.DishRes">
     <id property="dishId" column="dish_id"/>
     <result property="season" column="season"/>
     <result property="oilyDegree" column="oily_degree"/>
@@ -34,7 +34,16 @@
     from bb_dish
     <where>
         <if test="season != null">
-            season = #{season}
+            and season = #{season}
+        </if>
+        <if test="oilyDegree != null">
+            and oily_degree = #{oilyDegree}
+        </if>
+        <if test="dishType != null">
+            and dish_type = #{dishType}
+        </if>
+        <if test="dishName != null and dishName != ''">
+            and dish_name = #{dishName}
         </if>
     </where>
     order by dish_id desc
