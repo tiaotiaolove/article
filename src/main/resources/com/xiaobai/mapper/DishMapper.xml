@@ -1,52 +1,85 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xiaobai.dish.dao.IDishDao">
-<!-- 基础结果集 -->
-<resultMap id="baseResultMap" type="com.xiaobai.dish.response.DishRes">
-    <id property="dishId" column="dish_id"/>
-    <result property="season" column="season"/>
-    <result property="oilyDegree" column="oily_degree"/>
-    <result property="dishType" column="dish_type"/>
-    <result property="dishName" column="dish_name"/>
-    <result property="dishPic" column="dish_pic"/>
-    <result property="dishSource" column="dish_source"/>
-    <result property="dishDesc" column="dish_desc"/>
-    <result property="hotGrade" column="hot_grade"/>
-</resultMap>
+    <!-- 基础结果集 -->
+    <resultMap id="baseResultMap" type="com.xiaobai.dish.response.DishRes">
+        <id property="dishId" column="dish_id"/>
+        <result property="season" column="season"/>
+        <result property="oilyDegree" column="oily_degree"/>
+        <result property="dishType" column="dish_type"/>
+        <result property="dishName" column="dish_name"/>
+        <result property="dishPic" column="dish_pic"/>
+        <result property="dishSource" column="dish_source"/>
+        <result property="dishDesc" column="dish_desc"/>
+        <result property="hotGrade" column="hot_grade"/>
+    </resultMap>
 
-<!-- 通用查询字段 -->
-<sql id="commonQuerySql">
-    dish_id,
-    season,
-    oily_degree,
-    dish_type,
-    dish_name,
-    dish_pic,
-    dish_source,
-    dish_desc,
-    hot_grade
-</sql>
+    <!-- 通用查询字段 -->
+    <sql id="commonQuerySql">
+        dish_id,
+        season,
+        oily_degree,
+        dish_type,
+        dish_name,
+        dish_pic,
+        dish_source,
+        dish_desc,
+        hot_grade
+    </sql>
 
-<!-- 分页查询菜品 -->
-<select id="queryDishList" resultMap="baseResultMap">
-    select
-    <include refid="commonQuerySql"/>
-    from bb_dish
-    <where>
-        <if test="season != null">
-            and season = #{season}
-        </if>
-        <if test="oilyDegree != null">
-            and oily_degree = #{oilyDegree}
-        </if>
-        <if test="dishType != null">
-            and dish_type = #{dishType}
-        </if>
-        <if test="dishName != null and dishName != ''">
-            and dish_name = #{dishName}
-        </if>
-    </where>
-    order by dish_id desc
-</select>
+    <!-- 分页查询菜品 -->
+    <select id="queryDishList" resultMap="baseResultMap">
+        select
+        <include refid="commonQuerySql"/>
+        from bb_dish
+        <where>
+            del_flag = 0
+            and create_user_id = #{createUserId}
+            <if test="season != null">
+                and season = #{season}
+            </if>
+            <if test="oilyDegree != null">
+                and oily_degree = #{oilyDegree}
+            </if>
+            <if test="dishType != null">
+                and dish_type = #{dishType}
+            </if>
+            <if test="dishName != null and dishName != ''">
+                and dish_name = #{dishName}
+            </if>
+        </where>
+        order by dish_id desc
+    </select>
 
+    <!-- 新增菜品 -->
+    <insert id="addDish">
+        INSERT INTO bb_dish(season,oily_degree, dish_type, dish_name, dish_pic,
+            dish_source, dish_desc, hot_grade, del_flag, create_time, create_user_id)
+        VALUES (#{season}, #{oilyDegree}, #{dishType}, #{dishName}, #{dishPic},
+            #{dishSource}, #{dishDesc}, 0, 0, NOW(), #{createUserId})
+    </insert>
+
+    <!-- 修改菜品 -->
+    <update id="updateDish">
+        UPDATE bb_dish
+        <set>
+            season = #{season},
+            oily_degree = #{oilyDegree},
+            dish_type = #{dishType},
+            dish_name = #{dishName},
+            dish_pic = #{dishPic},
+            dish_source = #{dishSource},
+            dish_desc = #{dishDesc},
+        </set>
+        WHERE dish_id = #{dishId}
+        AND create_user_id = #{createUserId}
+    </update>
+
+    <!-- 删除菜品 -->
+    <delete id="deleteDish">
+        UPDATE bb_dish
+        SET del_flag = 1
+        WHERE dish_id = #{dishId}
+        AND create_user_id = #{createUserId}
+    </delete>
 </mapper>

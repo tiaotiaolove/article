@@ -7,7 +7,10 @@ import com.xiaobai.login.service.LoginService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Base64;
@@ -36,14 +39,5 @@ public class LoginController {
         loginUserReq.setAccount(account);
         loginUserReq.setPassword(password);
         return BaseResponse.success(loginService.login(loginUserReq));
-    }
-
-    /**
-     * 退出登录
-     */
-    @ApiOperation(value = "用户登出接口", notes = "用户退出登录")
-    @GetMapping(value = "/loginOut")
-    public BaseResponse loginOut() {
-        return BaseResponse.SUCCESSFUL();
     }
 }

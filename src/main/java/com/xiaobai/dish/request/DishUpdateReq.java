@@ -8,15 +8,22 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 /**
- * 菜品添加请求参数
+ * 菜品编辑请求参数
  *
  * @author bail
  * @date 2018/12/31.16:43
  */
 @ApiModel
 @Data
-public class DishAddReq extends BaseRequest {
+public class DishUpdateReq extends BaseRequest {
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 菜品id
+     */
+    @ApiModelProperty(value = "菜品id", required = true, example = "1")
+    @NotNull
+    private Long dishId;
 
     /**
      * 适合季节(0,1,2,3分别代表春夏秋冬)

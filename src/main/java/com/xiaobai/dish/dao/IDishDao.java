@@ -1,6 +1,9 @@
 package com.xiaobai.dish.dao;
 
+import com.xiaobai.dish.request.DishAddReq;
+import com.xiaobai.dish.request.DishDelReq;
 import com.xiaobai.dish.request.DishQueryReq;
+import com.xiaobai.dish.request.DishUpdateReq;
 import com.xiaobai.dish.response.DishRes;
 import org.springframework.stereotype.Repository;
 
@@ -22,4 +25,25 @@ public interface IDishDao {
      * @return 菜品分页数据
      */
     List<DishRes> queryDishList(DishQueryReq dishQueryReq);
+
+    /**
+     * 添加菜品
+     *
+     * @param dishAddReq 参数
+     */
+    void addDish(DishAddReq dishAddReq);
+
+    /**
+     * 编辑菜品
+     *
+     * @param dishUpdateReq 参数
+     */
+    void updateDish(DishUpdateReq dishUpdateReq);
+
+    /**
+     * 删除菜品
+     *
+     * @param dishDelReq 参数
+     */
+    void deleteDish(DishDelReq dishDelReq);
 }

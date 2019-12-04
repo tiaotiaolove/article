@@ -2,7 +2,10 @@ package com.xiaobai.dish;
 
 import com.github.pagehelper.PageInfo;
 import com.xiaobai.common.base.BaseResponse;
+import com.xiaobai.dish.request.DishAddReq;
+import com.xiaobai.dish.request.DishDelReq;
 import com.xiaobai.dish.request.DishQueryReq;
+import com.xiaobai.dish.request.DishUpdateReq;
 import com.xiaobai.dish.response.DishRes;
 import com.xiaobai.dish.service.DishService;
 import io.swagger.annotations.Api;
@@ -32,5 +35,26 @@ public class DishController {
     @PostMapping("/page")
     public BaseResponse<PageInfo<DishRes>> dishPage(@RequestBody @Valid DishQueryReq dishQueryReq) {
         return BaseResponse.success(dishService.queryDishPage(dishQueryReq));
+    }
+
+    @ApiOperation(value = "添加菜品", notes = "...")
+    @PostMapping("/add")
+    public BaseResponse addDish(@RequestBody @Valid DishAddReq dishAddReq) {
+        dishService.addDish(dishAddReq);
+        return BaseResponse.SUCCESSFUL();
+    }
+
+    @ApiOperation(value = "编辑菜品", notes = "...")
+    @PostMapping("/update")
+    public BaseResponse updateDish(@RequestBody @Valid DishUpdateReq dishUpdateReq) {
+        dishService.updateDish(dishUpdateReq);
+        return BaseResponse.SUCCESSFUL();
+    }
+
+    @ApiOperation(value = "删除菜品", notes = "...")
+    @PostMapping("/delete")
+    public BaseResponse deleteDish(@RequestBody @Valid DishDelReq dishDelReq) {
+        dishService.deleteDish(dishDelReq);
+        return BaseResponse.SUCCESSFUL();
     }
 }

@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * 菜品查询类
+ * 菜品查询请求参数
  *
  * @author bail
  * @date 2018/12/31.16:43
@@ -39,6 +39,12 @@ public class DishQueryReq extends BasePageRequest {
      */
     @ApiModelProperty(value = "菜品名称", example = "蚂蚁上树")
     private String dishName;
+
+    /**
+     * 创建人id
+     */
+    @ApiModelProperty(value = "创建人id", hidden = true)
+    private Long createUserId;
 
 }
 
