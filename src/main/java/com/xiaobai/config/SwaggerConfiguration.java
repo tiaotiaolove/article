@@ -71,7 +71,7 @@ public class SwaggerConfiguration {
                 .claim("userPhone", "17368331673")
                 .claim("ip", "localhost")
                 // 1个月过期
-                .setExpiration(DateUtils.addDays(date, 1))
+                .setExpiration(DateUtils.addMonths(date, 1))
                 .compact();
         tokenPar.name("Authorization").description("接口需要的jwt token")
                 .modelRef(new ModelRef("string"))

@@ -53,8 +53,8 @@ public final class LoginUtil {
                 .setIssuedAt(date)
                 .claim("userPhone", loginUser.getUserPhone())
                 .claim("ip", HttpUtil.getIpAddr())
-                // 30分钟过期
-                .setExpiration(DateUtils.addMinutes(date, 30))
+                // 1个月过期
+                .setExpiration(DateUtils.addMonths(date, 1))
                 .compact();
 
         return LoginRes.builder()
